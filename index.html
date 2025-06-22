@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Despejador de Ecuaciones</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nerdamer/1.1.11/nerdamer.core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nerdamer/1.1.11/Solve.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    <link rel="icon" type="image/png" href="algebra.png" />
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .contenedor {
+      max-width: 600px;
+      margin: auto;
+      background: rgb(7, 228, 198);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7em;
+      margin-top: 1em;
+      font-size: 1rem;
+      background-color: #daf1ee;
+      border: 1px solid #edf1eb;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.7em;
+      margin-top: 1em;
+      font-size: 1rem;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:nth-of-type(1) { background-color: #1c8b18; } /* Despejar */
+    button:nth-of-type(2) { background-color: #6eb3f3; } /* Copilot */
+    button:nth-of-type(3) { background-color: #ff8c00; } /* Limpiar */
+
+    .resultado {
+      margin-top: 2em;
+      padding: 1em;
+      background: #f0f8ff;
+      border-radius: 6px;
+    }
+
+    footer {
+      margin-top: 3em;
+      text-align: center;
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h2>DespejaExp: Despeja ecauciones Matemáticas.</h2>
+    <h4>Como experto en Matemáticas, despeja la variable de la siguiente ecuación.</h4>
+
+    <label for="variable">Variable a despejar:</label>
+    <input type="text" id="variable" placeholder="Ej. x">
+
+    <label for="ecuacion">Ecuación:</label>
+    <input type="text" id="ecuacion" placeholder="Ej. 3*x + 5 = 11">
+
+    <button onclick="resolver()">Revisar Ecuación</button>
+    <button onclick="abrirCopilot()">Cosultar en Copilot</button>
+    <button onclick="limpiarCampos()">Limpiar Campos</button>
+
+    <div class="resultado" id="resultado"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 fmartinezb@gmail.com
+  </footer>
+
+  <script>
+    function isValidEquation(ecuacion, variable) {
+      return ecuacion.includes("=") && ecuacion.includes(variable);
+    }
+
+    function resolver() {
+      const variable = document.getElementById("variable").value.trim();
+      const ecuacion = document.getElementById("ecuacion").value.trim();
+      const resultadoDiv = document.getElementById("resultado");
+
+      if (!variable || !ecuacion) {
+        resultadoDiv.innerHTML = "Por favor, completa ambos campos.";
+        return;
+      }
+
+      if (!isValidEquation(ecuacion, variable)) {
+        resultadoDiv.innerHTML = "Lo siento solo estoy programado para despejar ecuaciones.";
+        return;
+      }
+
+      try {
+        const solucion = nerdamer.solveEquations(ecuacion, variable).toString();
+        resultadoDiv.innerHTML = `\\(${variable} = ${solucion}\\)`;
+        MathJax.typesetPromise();
+      } catch (error) {
+        resultadoDiv.innerHTML = "Puedes consular en Copilot.";
+      }
+    }
+
+    function abrirCopilot() {
+      const variable = document.getElementById("variable").value.trim();
+      const ecuacion = document.getElementById("ecuacion").value.trim();
+      const texto = `Como experto en Matemáticas, despeja la variable ${variable} de la siguiente ecuación. ${ecuacion}`;
+      const prompt = encodeURIComponent(texto);
+      window.open(`https://copilot.microsoft.com/?q=${prompt}`, "_blank");
+    }
+
+    function limpiarCampos() {
+      document.getElementById("variable").value = "";
+      document.getElementById("ecuacion").value = "";
+      document.getElementById("resultado").innerHTML = "";
+    }
+  </script>
+</body>
+</html>
+
+
+<!--
+PROMPT
+Crea una aplicación en HTML, interactiva y responsiva que despeje cualquier ecuación algebraica. Añade el texto siguiente: 
+"Como experto en Matemáticas, despeja la variable […] de la siguiente ecuación.  […]”  Sustituye cada […] por un campo de texto
+ para que el usuario introduzca valores y procede a despejar la variable de la ecuación. Si el usuario introduce una pregunta diferente, debes contestar:
+  “Lo siento solo estoy programado para despejar ecuaciones. “Después de responder solo debes aceptar ecuaciones con variables a despejar. 
+  Muestra los resultados en notación matemática como si fuera hecha por Latex.
+Añade un botón que abra una pestaña nueva para pasarle un prompt a la IA:
+«https://copilot.microsoft.com/?q=${prompt}», donde prompt es el texto anterior colocando el valor de los campos introducidos por el usuario en […].
+
+LA BASE PARA ESTE ARCHIVO ES chatbot_despeje.html generado en Copilot
+
+-->

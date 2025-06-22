@@ -1,0 +1,16 @@
+{
+  "name": "DespejaExpresiones",
+  "short_name": "DespExp",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff8c00",
+  "description": "Despeja ecuaciones algebraicas con estilo.",
+  "icons": [
+    {
+      "src": "algebra.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
