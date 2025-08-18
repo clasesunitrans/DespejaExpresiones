@@ -70,7 +70,7 @@
 </head>
 <body>
   <div class="contenedor">
-    <h2>DespejaExp: Despeja ecuaciones Matemáticas.</h2>
+    <h2>DespejaExp: Despeja Ecuaciones Matemáticas.</h2>
     <h4>Como experto en Matemáticas, despeja la variable de la siguiente ecuación.</h4>
 
     <label for="variable">Variable a despejar:</label>
@@ -80,15 +80,18 @@
     <input type="text" id="ecuacion" placeholder="Ej. 3*x + 5 = 11">
 
     <button onclick="resolver()">Revisar Ecuación</button>
-    <button onclick="abrirCopilot()">Cosultar en Copilot</button>
+    <button onclick="abrirCopilot()">Consultar a Perplexity</button>
     <button onclick="limpiarCampos()">Limpiar Campos</button>
 
     <div class="resultado" id="resultado"></div>
   </div>
 
-  <footer>
-    &copy; 2025 fmartinezb@gmail.com
-  </footer>
+          <footer class="text-center py-4 mt-8">
+            <p class="text-xs text-slate-500">© 2025 Prof. Felipe Martínez. Todos los derechos reservados. </p>
+            <p class="text-xs text-slate-500">Matemática Activa.</p>
+        </footer>
+
+
 
   <script>
     function isValidEquation(ecuacion, variable) {
@@ -124,7 +127,7 @@
       const ecuacion = document.getElementById("ecuacion").value.trim();
       const texto = `Como experto en Matemáticas, despeja la variable ${variable} de la siguiente ecuación. ${ecuacion}`;
       const prompt = encodeURIComponent(texto);
-      window.open(`https://copilot.microsoft.com/?q=${prompt}`, "_blank");
+      window.open(`https://www.perplexity.ai/?q=${prompt}`, "_blank");
     }
 
     function limpiarCampos() {
